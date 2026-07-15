@@ -18,10 +18,7 @@ This project simulates a three-phase AC motor driven by a Field-Oriented Control
 FOC_xeConCauTruc_discrete_251130_DNQ/
 ├── FOC_xeConCauTruc_discrete_251130_DNQ.mdl   # Main Simulink model
 ├── parameters.m                                # Controller PID parameters
-├── motor_params.m                              # Motor specifications and derived parameters
-├── speed_ref.mat                               # Speed reference signal data
 ├── velocity_ref.mat                            # Velocity reference signal data
-├── .gitignore                                  # Git ignore rules for MATLAB/Simulink
 └── README.md                                   # This file
 ```
 
@@ -75,7 +72,6 @@ FOC_xeConCauTruc_discrete_251130_DNQ/
 
 2. Load the motor parameters:
    ```matlab
-   run('motor_params.m')
    run('parameters.m')
    ```
 
@@ -98,7 +94,6 @@ FOC_xeConCauTruc_discrete_251130_DNQ/
 
 ## Reference Signals
 
-- `speed_ref.mat` — Speed reference profile (rad/s or RPM)
 - `velocity_ref.mat` — Velocity reference profile
 
 ## Key Features
