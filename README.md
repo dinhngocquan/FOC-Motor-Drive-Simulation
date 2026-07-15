@@ -1,78 +1,110 @@
 # FOC Motor Drive Simulation
 
-Field-Oriented Control (FOC) simulation for an induction motor drive system, implemented in MATLAB/Simulink.
+A Simulink-based Field-Oriented Control (FOC) simulation for an AC motor drive system. This project implements vector control with current and speed PID controllers for precise torque and speed regulation.
 
-## Project Overview
+## Overview
 
-This project contains a Simulink model for simulating a Field-Oriented Control (vector control) system for a three-phase induction motor. The model implements:
+This project simulates a three-phase AC motor driven by a Field-Oriented Control algorithm. The simulation includes:
 
-- **d-q axis current control** in the synchronous reference frame
-- **PI controllers** for speed and current loops
-- **Space Vector Pulse Width Modulation (SVPWM)** for inverter gating signals
-- **Motor parameter calculations** based on induction motor equivalent circuit
+- **FOC (Field-Oriented Control)** with Clarke and Park transformations
+- **Current loop PID controllers** (d-axis and q-axis)
+- **Speed loop PID controller**
+- **SVPWM (Space Vector Pulse Width Modulation)** inverter model
+- **Discrete-time implementation** for digital control
+
+## Project Structure
+
+```
+FOC_xeConCauTruc_discrete_251130_DNQ/
+├── FOC_xeConCauTruc_discrete_251130_DNQ.mdl   # Main Simulink model
+├── parameters.m                                # Controller PID parameters
+├── motor_params.m                              # Motor specifications and derived parameters
+├── speed_ref.mat                               # Speed reference signal data
+├── velocity_ref.mat                            # Velocity reference signal data
+├── .gitignore                                  # Git ignore rules for MATLAB/Simulink
+└── README.md                                   # This file
 ```
 
-## Requirements
+## Motor Specifications
+
+| Parameter | Symbol | Value | Unit |
+|-----------|--------|-------|------|
+| Rated Power | Pn | 11000 | W (11 kW) |
+| Rated Voltage (line-to-line) | Vn | 400 | V |
+| Rated Frequency | fn | 50 | Hz |
+| Stator Resistance | Rs | 0.386 | Ohms |
+| Rotor Resistance | Rr | 0.381 | Ohms |
+| Stator Leakage Inductance | Lls | 0.00524 | H |
+| Rotor Leakage Inductance | Llr | 0.00524 | H |
+| Mutual Inductance | Lm | 0.141 | H |
+| Inertia | J | 0.055 | kg·m² |
+| Friction Factor | F | 0.0 | N·m·s |
+| Pole Pairs | p | 2 | - |
+| DC Bus Voltage | Vdc | 510 | V |
+
+## Controller Parameters
+
+### Current Loop (d-q axis)
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| Sampling Time | 1e-5 | s (10 µs) |
+| Proportional Gain | kp1 | Current loop P gain |
+| Integral Gain | ki1 | Current loop I gain |
+
+### Speed Loop
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| Torque Constant | KT | Motor torque constant |
+| Proportional Gain | kp2 | Speed loop P gain |
+| Integral Gain | ki2 | Speed loop I gain |
+
+## Prerequisites
 
 - **MATLAB** R2020a or later
-- **Simulink** with SimPowerSystems / Simscape Electrical toolbox
-- **Control System Toolbox** (for PI controller design)
+- **Simulink** (with Simscape / Power Systems toolbox recommended)
+- **Control System Toolbox**
 
-## How to Use
+## How to Run
 
-1. Open the Simulink model:
+1. Open MATLAB and navigate to this project directory:
    ```matlab
-   open_system('FOC_xeConCauTruc_discrete_251130_DNQ.mdl')
+   cd FOC_xeConCauTruc_discrete_251130_DNQ
    ```
 
-2. Set the MATLAB path to include the scripts folder:
+2. Load the motor parameters:
    ```matlab
-   addpath('scripts')
+   run('motor_params.m')
+   run('parameters.m')
    ```
 
-3. Run the parameter initialization script before simulation:
+3. Open the Simulink model:
    ```matlab
-   % Use default parameters
-   parameters
-   
-   % OR use alternative configuration
-   thongso
+   FOC_xeConCauTruc_discrete_251130_DNQ
    ```
 
-4. Run the Simulink model simulation:
-   ```matlab
-   sim('model/FOC_xeConCauTruc_discrete_251130_DNQ')
-   ```
+4. Click **Run** in Simulink to start the simulation.
 
-5. Load and plot results:
-   ```matlab
-   load('results/speed_ac.mat')
-   load('results/speed_ref.mat')
-   plot(tout, speed_ac)
-   hold on
-   plot(tout, speed_ref)
-   legend('Actual Speed', 'Reference Speed')
-   ```
+5. View results in the Simulink scope blocks or export data to the MATLAB workspace.
 
-## Motor Parameters
+## Simulation Parameters
 
-Two parameter sets are provided:
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| Sample Time | 1e-5 s | Discrete control period |
+| DC Bus Voltage | 510 V | Inverter input voltage |
+| Switching Frequency | 5000 Hz | PWM carrier frequency |
 
-| Parameter | Description | Unit |
-|-----------|-------------|------|
-| `Tsample` | Sampling time | s |
-| `Vdc` | DC bus voltage | V |
-| `Rs` | Stator resistance | Ω |
-| `Rr` | Rotor resistance | Ω |
-| `Lls` | Stator leakage inductance | H |
-| `Llr` | Rotor leakage inductance | H |
-| `Lm` | Mutual inductance | H |
-| `Ls` | Stator self inductance | H |
-| `Lr` | Rotor self inductance | H |
-| `J` | Inertia | kg·m² |
-| `p` | Pole pairs | - |
-| `eta` | Efficiency | - |
+## Reference Signals
 
-## Simulation Results
+- `speed_ref.mat` — Speed reference profile (rad/s or RPM)
+- `velocity_ref.mat` — Velocity reference profile
 
-All `.mat` files in the `results/` folder contain simulation data in a variable named `tout` (time) and the corresponding signal data. These can be loaded and analyzed directly in MATLAB or exported to other tools for post-processing.
+## Key Features
+
+- **Discrete-time FOC controller** — Suitable for DSP/FPGA implementation
+- **PI current controllers** — Independent d-axis (flux) and q-axis (torque) control
+- **PI speed controller** — Regulates motor speed to reference
+- **SVPWM modulation** — Efficient inverter switching strategy
+- **Parametrized design** — Motor and controller parameters defined in `.m` files
