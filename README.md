@@ -22,7 +22,7 @@ This project contains a Simulink model for simulating a Field-Oriented Control (
 
 1. Open the Simulink model:
    ```matlab
-   open_system('model/FOC_xeConCauTruc_discrete_251130_DNQ.mdl')
+   open_system('FOC_xeConCauTruc_discrete_251130_DNQ.mdl')
    ```
 
 2. Set the MATLAB path to include the scripts folder:
