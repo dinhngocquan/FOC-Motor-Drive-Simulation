@@ -10,33 +10,6 @@ This project contains a Simulink model for simulating a Field-Oriented Control (
 - **PI controllers** for speed and current loops
 - **Space Vector Pulse Width Modulation (SVPWM)** for inverter gating signals
 - **Motor parameter calculations** based on induction motor equivalent circuit
-
-## Folder Structure
-
-```
-Publish/
-├── model/                          # Simulink model files
-│   └── FOC_xeConCauTruc_discrete_251130_DNQ.mdl
-├── scripts/                        # MATLAB parameter & setup scripts
-│   ├── parameters.m                # Default motor parameters & PI gains
-│   └── thongso.m                   # Alternative motor configuration
-├── results/                        # Simulation output data (MAT files)
-│   ├── Ia.mat                      # Phase A current
-│   ├── Ib.mat                      # Phase B current
-│   ├── Ic.mat                      # Phase C current
-│   ├── Iabc.mat                    # Three-phase currents (abc)
-│   ├── isd.mat                     # d-axis stator current
-│   ├── isq.mat                     # q-axis stator current
-│   ├── speed_ac.mat                # Actual rotor speed
-│   ├── speed_ref.mat               # Speed reference
-│   ├── Te.mat                      # Electromagnetic torque
-│   ├── Vab.mat                     # Line-to-line voltage
-│   ├── Vsd.mat                     # d-axis stator voltage
-│   ├── Vsq.mat                     # q-axis stator voltage
-│   └── velocity_ref.mat            # Velocity reference
-├── .gitignore                      # Git ignore rules
-├── FOC_xeConCauTruc_discrete_251130_DNQ.rar   # Archive backup
-└── README.md
 ```
 
 ## Requirements
